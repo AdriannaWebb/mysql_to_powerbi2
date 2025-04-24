@@ -4,6 +4,8 @@ __pycache__/
 *$py.class
 .env
 *.env*
+output\transformed_data.xlsx
+transformed_data.xlsx
 
 # C extensions
 *.so

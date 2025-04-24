@@ -21,7 +21,6 @@ DB_CONFIG = {
     "user": os.getenv("DB_USER", ""),
     "password": os.getenv("DB_PASSWORD", ""),
     "database": os.getenv("DB_NAME", ""),
-    # Don't convert port to int, we'll handle it in the connection string
     "port": os.getenv("DB_PORT", "3306")
 }
 
