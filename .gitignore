@@ -9,7 +9,7 @@ output/transformed_data.xlsx
 transformed_data.xlsx
 C:\Users\awebb\Better Business Bureau of Nebraska\Aging Collections Report\mysql_to_powerbi\output\transformed_data.xlsx
 *.xlsx
-
+.xlsx
 # C extensions
 *.so
 

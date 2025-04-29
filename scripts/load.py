@@ -56,3 +56,28 @@ def load_to_excel(dataframes_dict):
     except Exception as e:
         logger.error(f"Error saving data to Excel: {e}")
         raise    
+
+def load_to_invoice_excel(df, filename=None):
+    """
+    Export the invoice-based transformation dataframe to a separate Excel file
+    
+    Args:
+        df: The dataframe to export
+        filename: Optional custom filename, defaults to 'invoice_summary.xlsx' in the output directory
+    """
+    try:
+        # Use the default output file if none specified
+        if filename is None:
+            filename = OUTPUT_FILE.parent / "invoice_summary.xlsx"
+        
+        logger.info(f"Saving invoice data to Excel file: {filename}")
+        
+        # Create Excel writer
+        with pd.ExcelWriter(filename, engine='openpyxl') as writer:
+            # Convert to Excel without index
+            df.to_excel(writer, index=False, sheet_name='InvoiceSummary')
+            
+        logger.info(f"Invoice data successfully saved to {filename}")
+    except Exception as e:
+        logger.error(f"Error saving invoice data to Excel: {e}")
+        raise   

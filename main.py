@@ -1,7 +1,7 @@
 # main.py
 from scripts.extract import extract_cash_receipts
-from scripts.transform import transform_cash_receipts, transform_cash_receipts_dues
-from scripts.load import load_to_excel
+from scripts.transform import transform_cash_receipts, transform_cash_receipts_dues, transform_cash_receipts_by_invoice
+from scripts.load import load_to_excel, load_to_invoice_excel
 from scripts.logging_setup import logger
 import time
 
@@ -26,14 +26,24 @@ def main():
         transformed_dues_data = transform_cash_receipts_dues(raw_data)
         logger.info("Transform phase completed for Dues/Enrollment")
         
-        # Load - Both transformations to separate sheets
-        logger.info("Load phase started")
+        # Transform - Invoice-based transformation (group by Invoice_ID with counts and sums)
+        logger.info("Transform phase started for Invoice Summary")
+        invoice_summary_data = transform_cash_receipts_by_invoice(raw_data)
+        logger.info("Transform phase completed for Invoice Summary")
+        
+        # Load - Both original transformations to separate sheets in one Excel file
+        logger.info("Load phase started for main Excel file")
         dataframes_dict = {
             'CashReceipts': transformed_data,
             'DuesAndEnrollment': transformed_dues_data
         }
         load_to_excel(dataframes_dict)
-        logger.info("Load phase completed")
+        logger.info("Load phase completed for main Excel file")
+        
+        # Load - Invoice summary to a separate Excel file
+        logger.info("Load phase started for Invoice Summary Excel file")
+        load_to_invoice_excel(invoice_summary_data)
+        logger.info("Load phase completed for Invoice Summary Excel file")
         
         execution_time = time.time() - start_time
         logger.info(f"ETL process completed successfully in {execution_time:.2f} seconds")
